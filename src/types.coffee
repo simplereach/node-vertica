@@ -1,5 +1,3 @@
-num = require 'num'
-
 padWithZeroes = (str, length) ->
   res = "#{str}"
   res = "0#{res}" while res.length < length
@@ -174,9 +172,9 @@ exports.Interval = VerticaInterval
 
 stringDecoders =
   string:    (buffer) -> buffer.toString()
-  integer:   (buffer) -> num(buffer.toString())
-  real:      (buffer) -> num(buffer.toString())
-  numeric:   (buffer) -> num(buffer.toString())
+  integer:   (buffer) -> buffer.toString()
+  real:      (buffer) -> buffer.toString()
+  numeric:   (buffer) -> buffer.toString()
   boolean:   (buffer) -> buffer.toString() == 't'
   date:      (buffer) -> VerticaDate.fromStringBuffer(buffer)
   time:      (buffer) -> VerticaTime.fromStringBuffer(buffer)

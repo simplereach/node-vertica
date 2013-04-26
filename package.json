@@ -14,9 +14,12 @@
     {
       "name": "Willem van Bergen",
       "email": "willem@railsdoctors.com",
-      "web": "http://www.vanbergen.org" 
+      "web": "http://www.vanbergen.org"
     }
   ],
+  "dependencies":{
+    "num":"0.2.1"
+  },
   "devDependencies": {
     "coffee-script": "~> 1.6.2",
     "vows": "~> 0.7.0"

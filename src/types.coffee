@@ -1,3 +1,5 @@
+num = require 'num'
+
 padWithZeroes = (str, length) ->
   res = "#{str}"
   res = "0#{res}" while res.length < length
@@ -38,13 +40,13 @@ class VerticaDate
     @year  = +year
     @month = +month
     @day   = +day
-    
+
   toDate:    -> new Date(@year, @month - 1, @day)
   toString:  -> "#{padWithZeroes(@year, 4)}-#{padWithZeroes(@month, 2)}-#{padWithZeroes(@day, 2)}"
   sqlQuoted: -> "'#{@toString()}'::date"
   toJSON:    -> @toString()
 
-  
+
 VerticaDate.fromStringBuffer = (buffer) ->
   if matches = buffer.toString('ascii').match(/^(\d{4})-(\d{2})-(\d{2})$/)
     new VerticaDate(matches[1], matches[2], matches[3])
@@ -84,7 +86,7 @@ exports.Time = VerticaTime
 ################################################
 
 # not implemented as a separate class as of yet
-  
+
 VerticaTimestamp =
 
   fromStringBuffer: (buffer) ->
@@ -129,21 +131,21 @@ class VerticaInterval
     @hours = +hours if hours?
     @minutes = +minutes if minutes?
     @seconds = +seconds if seconds?
-    
+
   inDays: ->
     days = 0
     days += @days if @days
-    days += @hours / 24 if @hours 
+    days += @hours / 24 if @hours
     days += @minutes / (24 * 60) if @minutes
     days += @seconds / (24 * 60 / 60) if @seconds
-    
+
   inSeconds: ->
     seconds = 0
     seconds += @days * 60 * 60 * 24 if @days
-    seconds += @hours * 60 * 60 if @hours 
+    seconds += @hours * 60 * 60 if @hours
     seconds += @minutes * 60 if @minutes
     seconds += @seconds if @seconds
-    
+
   inMilliseconds: ->
     @inSeconds() * 1000
 
@@ -152,7 +154,7 @@ class VerticaInterval
 
   toJSON: ->
     days: @days, hours: @hours, minutes: @minutes, seconds: @seconds
-  
+
   sqlQuoted: ->
     throw 'Not yet implemented'
 
@@ -172,9 +174,9 @@ exports.Interval = VerticaInterval
 
 stringDecoders =
   string:    (buffer) -> buffer.toString()
-  integer:   (buffer) -> +buffer
-  real:      (buffer) -> parseFloat(buffer)
-  numeric:   (buffer) -> parseFloat(buffer)
+  integer:   (buffer) -> num(buffer.toString())
+  real:      (buffer) -> num(buffer.toString())
+  numeric:   (buffer) -> num(buffer.toString())
   boolean:   (buffer) -> buffer.toString() == 't'
   date:      (buffer) -> VerticaDate.fromStringBuffer(buffer)
   time:      (buffer) -> VerticaTime.fromStringBuffer(buffer)
